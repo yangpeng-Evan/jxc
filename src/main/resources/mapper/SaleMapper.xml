@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yp.mapper.SaleMapper">
+<!--    //查询全部的销售数据信息-->
+<!--    List<Sale> findAllSales();-->
+    <select id="findAllSales" resultType="com.yp.entity.Sale">
+        select
+        s.*,
+        u.realname realName,
+        p.product_name productName
+        from
+        sale s,user u,product p
+        where
+        s.user_id = u.id
+        and s.product_id = p.id
+        <choose>
+            <when test="flag == 0">
+                order by sale_date desc
+            </when>
+            <otherwise>
+                order by total_price desc
+            </otherwise>
+        </choose>
+    </select>
+</mapper>
